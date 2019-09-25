@@ -31,11 +31,6 @@ class Worker {
 
   Worker(this.name);
 
-  void execute(Task task) {
-    status = WorkerStatus.processing;
-    _sendPort.send(task);
-  }
-
   Future<void> init({
     @required OnResultFunction onResult,
     @required OnErrorFunction onError,
@@ -63,6 +58,11 @@ class Worker {
       }
       onResult(res, this);
     });
+  }
+
+  void execute(Task task) {
+    status = WorkerStatus.processing;
+    _sendPort.send(task);
   }
 
   Future<void> dispose() async {

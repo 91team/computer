@@ -38,7 +38,11 @@ class Computer {
     }
   }
 
-  Future<R> compute<P, R>(Function fn, {P param, Duration timeout}) async {
+  Future<R> compute<P, R>(
+    Function fn, {
+    P param,
+    // Duration timeout,
+  }) async {
     Logger.log('Started computation');
 
     final taskCapability = Capability();
@@ -47,7 +51,7 @@ class Computer {
     final Task task = Task(
       task: fn,
       param: param,
-      timeout: timeout,
+      // timeout: timeout,
       capability: taskCapability,
     );
 
