@@ -35,13 +35,13 @@ class Computer {
     }
   }
 
-  Future<T> compute<T>(Function fn, {dynamic param, Duration timeout}) async {
+  Future<R> compute<P, R>(Function fn, {P param, Duration timeout}) async {
     Logger.log('Started computation');
 
     final taskCapability = Capability();
-    final taskCompleter = Completer();
+    final taskCompleter = Completer<R>();
 
-    final Task task = Task(
+    final Task<P, R> task = Task(
       task: fn,
       param: param,
       timeout: timeout,
@@ -57,10 +57,10 @@ class Computer {
       _taskQueue.add(task);
     } else {
       Logger.log('Found free worker, executing on it');
-      freeWorker.execute(task);
+      freeWorker.execute<P, R>(task);
     }
 
-    T result = await taskCompleter.future;
+    R result = await taskCompleter.future;
     return result;
   }
 

@@ -25,7 +25,7 @@ class Worker {
 
   StreamSubscription _broadcastPortSubscription;
 
-  void execute<T>(Task task) {
+  void execute<P, R>(Task<P, R> task) {
     status = WorkerStatus.processing;
     _sendPort.send(task);
   }
@@ -64,7 +64,7 @@ void isolateEntryPoint(IsolateInitParams params) async {
   sendPort.send(receivePort.sendPort);
 
   await for (Task task in receivePort) {
-    var computationResult = task.task(task.param);
+    var computationResult = await task.task(task.param);
     TaskResult result = TaskResult(
       result: computationResult,
       capability: task.capability,
