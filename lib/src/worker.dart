@@ -25,7 +25,7 @@ class Worker {
 
   StreamSubscription _broadcastPortSubscription;
 
-  void execute<P, R>(Task<P, R> task) {
+  void execute(Task task) {
     status = WorkerStatus.processing;
     _sendPort.send(task);
   }

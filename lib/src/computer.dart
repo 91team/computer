@@ -41,7 +41,7 @@ class Computer {
     final taskCapability = Capability();
     final taskCompleter = Completer<R>();
 
-    final Task<P, R> task = Task(
+    final Task task = Task(
       task: fn,
       param: param,
       timeout: timeout,
@@ -57,7 +57,7 @@ class Computer {
       _taskQueue.add(task);
     } else {
       Logger.log('Found free worker, executing on it');
-      freeWorker.execute<P, R>(task);
+      freeWorker.execute(task);
     }
 
     R result = await taskCompleter.future;

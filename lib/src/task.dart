@@ -3,11 +3,9 @@ import 'dart:isolate';
 
 import 'package:meta/meta.dart';
 
-typedef TaskCallback<P, R> = FutureOr<R> Function(P param);
-
-class Task<P, R> {
-  final TaskCallback<P, R> task;
-  final P param;
+class Task {
+  final Function task;
+  final dynamic param;
   final Duration timeout;
   final Capability capability;
 
@@ -19,8 +17,8 @@ class Task<P, R> {
   });
 }
 
-class TaskResult<R> {
-  final R result;
+class TaskResult {
+  final dynamic result;
   final Capability capability;
 
   TaskResult({
