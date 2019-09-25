@@ -21,7 +21,9 @@ class Computer {
 
   Map<Capability, Completer> _activeTaskCompleters = Map();
 
-  Future<void> turnOn({int workersCount = 2}) async {
+  Future<void> turnOn({int workersCount = 2, bool areLogsEnebled}) async {
+    if (areLogsEnebled) Logger.enable();
+
     Logger.log('Turning on');
     _workers = [];
     _taskQueue = Queue();

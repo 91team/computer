@@ -1,5 +1,5 @@
 class Logger {
-  static bool _isEnabled = false;
+  static bool _isEnabled = true;
 
   static void log(String message) {
     if (_isEnabled) {
