@@ -1,0 +1,9 @@
+name: computer
+version: 1.0.0
+author: Sergei Lavinov <serg_lavinov@inbox.ru>
+description: Easy to use pool of concurent workers with compute() like API.
+homepage: https://github.com/nineone/computer
+environment:
+  sdk: ">=2.0.0-dev.49.0 <3.0.0"
+dependencies:
+  meta: ^1.1.7
