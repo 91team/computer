@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:isolate';
 
+import 'package:computer/src/error.dart';
 import 'package:computer/src/logger.dart';
 
 import 'task.dart';
@@ -30,8 +31,8 @@ class Computer {
 
     for (int i = 0; i < workersCount; i++) {
       Logger.log('Starting worker $i...');
-      Worker worker = Worker();
-      await worker.init(onResult: _onTaskFinished);
+      Worker worker = Worker('worker$i');
+      await worker.init(onResult: _onTaskFinished, onError: _onTaskFailed);
       _workers.add(worker);
       Logger.log('Worker $i has started');
     }
@@ -84,6 +85,18 @@ class Computer {
   void _onTaskFinished(TaskResult result, Worker worker) {
     Completer taskCompleter = _activeTaskCompleters.remove(result.capability);
     taskCompleter.complete(result.result);
+
+    if (_taskQueue.isNotEmpty) {
+      Logger.log("Finished task on worker, queue isn't empty, pick task");
+      final task = _taskQueue.removeFirst();
+      worker.execute(task);
+    }
+  }
+
+  void _onTaskFailed(RemoteExecutionError error, Worker worker) {
+    Completer taskCompleter =
+        _activeTaskCompleters.remove(error.taskCapability);
+    taskCompleter.completeError(error);
 
     if (_taskQueue.isNotEmpty) {
       Logger.log("Finished task on worker, queue isn't empty, pick task");

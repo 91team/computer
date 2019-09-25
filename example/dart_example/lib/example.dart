@@ -4,8 +4,13 @@ import 'package:computer/computer.dart';
 
 Future<void> run() async {
   await Computer().turnOn(areLogsEnebled: true);
-  var a = await Computer().compute<int, int>(fib, param: 40);
-  print('Calculated a: $a');
+  try {
+    var a = await Computer().compute<int, int>(fib, param: null);
+    print('Calculated a: $a');
+  } catch (error) {
+    print(error);
+    print('Task a failed');
+  }
   var b = await Computer().compute<int, int>(asyncFib, param: 40);
   print('Calculated b: $b');
   var c = await Computer().compute<int, int>(fib, param: 30);
