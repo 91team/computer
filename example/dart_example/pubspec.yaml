@@ -1,0 +1,12 @@
+name: dart
+description: A sample command-line application.
+# version: 1.0.0
+# homepage: https://www.example.com
+# author: Stalder <serg_lavinov@inbox.ru>
+
+environment:
+  sdk: ">=2.4.0 <3.0.0"
+
+dependencies:
+  computer:
+    path: ../../
