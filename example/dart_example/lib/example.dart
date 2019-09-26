@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:computer/computer.dart';
 
 Future<void> run() async {
-  await Computer().turnOn(areLogsEnebled: true);
+  await Computer().turnOn(areLogsEnabled: true);
   try {
     var a = await Computer().compute<int, int>(fib, param: null);
     print('Calculated a: $a');
