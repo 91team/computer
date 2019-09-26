@@ -17,19 +17,21 @@ Computer is a singleton, that provides just 3 methods
 ```dart
 await Computer().turnOn(
   workersCount: 4, // optional, default 2
-  areLogsEnebled: false, // optional, default false
+  areLogsEnabled: false, // optional, default false
 );
 ```
+
 Before using the `Computer` you need to `turnOn` it. This will create workers and initialize them. Then you may use `compute()` method.
 
 ### compute()
 
 ```dart
-vat answer = await Computer().compute(
+var answer = await Computer().compute(
   fib,
   param: 45, // optional
 );
 ```
+
 `compute` will execute your function inside one of the workers. Function may be `async`
 
 ### turnOff()
@@ -37,5 +39,5 @@ vat answer = await Computer().compute(
 ```dart
 await Computer().turnOff();
 ```
-If you don't need workers anymore, you should `turnOff` the Computer. It will destroy workers.
 
+If you don't need workers anymore, you should `turnOff` the Computer. It will destroy workers.

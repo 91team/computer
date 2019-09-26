@@ -26,8 +26,9 @@ class Computer {
 
   /// Before any computation you need to turn on the Computer
 
-  Future<void> turnOn({int workersCount = 2, bool areLogsEnebled}) async {
-    if (areLogsEnebled) Logger.enable();
+  Future<void> turnOn(
+      {int workersCount = 2, bool areLogsEnabled = false}) async {
+    if (areLogsEnabled) Logger.enable();
 
     Logger.log('Turning on');
     _workers = [];
