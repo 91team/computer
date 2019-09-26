@@ -84,6 +84,13 @@ class Computer {
     for (Worker worker in _workers) {
       await worker.dispose();
     }
+    _activeTaskCompleters.forEach((taskCapability,completer){
+      if (!completer.isCompleted){
+        completer.completeError(RemoteExecutionError("Canceled because of computer turn off", taskCapability));
+      }
+    });
+    _activeTaskCompleters.clear();
+
     Logger.log('Turned off computer');
   }
 
