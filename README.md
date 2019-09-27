@@ -17,7 +17,7 @@ Computer is a singleton, that provides just 3 methods
 ```dart
 await Computer().turnOn(
   workersCount: 4, // optional, default 2
-  areLogsEnebled: false, // optional, default false
+  areLogsEnabled: false, // optional, default false
 );
 ```
 Before using the `Computer` you need to `turnOn` it. This will create workers and initialize them. Then you may use `compute()` method.
