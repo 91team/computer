@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:isolate';
-
 import 'package:meta/meta.dart';
 
 class Task {

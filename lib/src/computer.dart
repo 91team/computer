@@ -8,10 +8,10 @@ import 'package:computer/src/logger.dart';
 import 'task.dart';
 import 'worker.dart';
 
-/// Singleton, that provides compute() like API for concurent calculations
+/// Singleton, that provides compute() like API for concurrent calculations
 
 class Computer {
-  static Computer _instance = Computer._internal();
+  static final Computer _instance = Computer._internal();
 
   factory Computer() {
     return _instance;
@@ -22,12 +22,17 @@ class Computer {
   List<Worker> _workers;
   Queue<Task> _taskQueue;
 
-  Map<Capability, Completer> _activeTaskCompleters = Map();
+  final Map<Capability, Completer> _activeTaskCompleters = {};
 
   /// Before any computation you need to turn on the Computer
 
-  Future<void> turnOn({int workersCount = 2, bool areLogsEnabled}) async {
-    if (areLogsEnabled) Logger.enable();
+  Future<void> turnOn({
+    int workersCount = 2,
+    bool areLogsEnabled,
+  }) async {
+    if (areLogsEnabled) {
+      Logger.enable();
+    }
 
     Logger.log('Turning on');
     _workers = [];
@@ -35,7 +40,7 @@ class Computer {
 
     for (int i = 0; i < workersCount; i++) {
       Logger.log('Starting worker $i...');
-      Worker worker = Worker('worker$i');
+      final Worker worker = Worker('worker$i');
       await worker.init(onResult: _onTaskFinished, onError: _onTaskFailed);
       _workers.add(worker);
       Logger.log('Worker $i has started');
@@ -63,7 +68,7 @@ class Computer {
 
     _activeTaskCompleters[taskCapability] = taskCompleter;
 
-    Worker freeWorker = _findFreeWorker();
+    final freeWorker = _findFreeWorker();
 
     if (freeWorker == null) {
       Logger.log('No free workers, add task to the queue');
@@ -73,7 +78,7 @@ class Computer {
       freeWorker.execute(task);
     }
 
-    R result = await taskCompleter.future;
+    final R result = await taskCompleter.future;
     return result;
   }
 
@@ -81,12 +86,15 @@ class Computer {
 
   Future<void> turnOff() async {
     Logger.log('Turning off computer...');
-    for (Worker worker in _workers) {
+    for (final worker in _workers) {
       await worker.dispose();
     }
-    _activeTaskCompleters.forEach((taskCapability,completer){
-      if (!completer.isCompleted){
-        completer.completeError(RemoteExecutionError("Canceled because of computer turn off", taskCapability));
+    _activeTaskCompleters.forEach((taskCapability, completer) {
+      if (!completer.isCompleted) {
+        completer.completeError(RemoteExecutionError(
+          'Canceled because of computer turn off',
+          taskCapability,
+        ));
       }
     });
     _activeTaskCompleters.clear();
@@ -102,7 +110,7 @@ class Computer {
   }
 
   void _onTaskFinished(TaskResult result, Worker worker) {
-    Completer taskCompleter = _activeTaskCompleters.remove(result.capability);
+    final taskCompleter = _activeTaskCompleters.remove(result.capability);
     taskCompleter.complete(result.result);
 
     if (_taskQueue.isNotEmpty) {
@@ -113,8 +121,7 @@ class Computer {
   }
 
   void _onTaskFailed(RemoteExecutionError error, Worker worker) {
-    Completer taskCompleter =
-        _activeTaskCompleters.remove(error.taskCapability);
+    final taskCompleter = _activeTaskCompleters.remove(error.taskCapability);
     taskCompleter.completeError(error);
 
     if (_taskQueue.isNotEmpty) {
