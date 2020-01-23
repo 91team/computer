@@ -8,5 +8,4 @@ environment:
   sdk: ">=2.4.0 <3.0.0"
 
 dependencies:
-  computer:
-    path: ../../
+  computer: ^1.0.2
