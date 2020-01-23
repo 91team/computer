@@ -38,9 +38,9 @@ class Computer {
     _workers = [];
     _taskQueue = Queue();
 
-    for (int i = 0; i < workersCount; i++) {
+    for (var i = 0; i < workersCount; i++) {
       Logger.log('Starting worker $i...');
-      final Worker worker = Worker('worker$i');
+      final worker = Worker('worker$i');
       await worker.init(onResult: _onTaskFinished, onError: _onTaskFailed);
       _workers.add(worker);
       Logger.log('Worker $i has started');
@@ -59,7 +59,7 @@ class Computer {
     final taskCapability = Capability();
     final taskCompleter = Completer<R>();
 
-    final Task task = Task(
+    final task = Task(
       task: fn,
       param: param,
       // timeout: timeout,
@@ -78,7 +78,7 @@ class Computer {
       freeWorker.execute(task);
     }
 
-    final R result = await taskCompleter.future;
+    final result = await taskCompleter.future;
     return result;
   }
 
