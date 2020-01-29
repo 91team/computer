@@ -1,5 +1,3 @@
-import '../lib/example.dart';
+import 'package:dart/example.dart';
 
-main(List<String> arguments) async {
-  await run();
-}
+Future<void> main(List<String> arguments) async => run();

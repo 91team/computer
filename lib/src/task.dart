@@ -1,5 +1,4 @@
 import 'dart:isolate';
-
 import 'package:meta/meta.dart';
 
 class Task {

@@ -6,8 +6,8 @@ import 'package:meta/meta.dart';
 import 'error.dart';
 import 'task.dart';
 
-typedef void OnResultFunction(TaskResult result, Worker worker);
-typedef void OnErrorFunction(RemoteExecutionError error, Worker worker);
+typedef OnResultFunction = void Function(TaskResult result, Worker worker);
+typedef OnErrorFunction = void Function(RemoteExecutionError error, Worker worker);
 
 enum WorkerStatus { idle, processing }
 
@@ -72,16 +72,16 @@ class Worker {
   }
 }
 
-void isolateEntryPoint(IsolateInitParams params) async {
-  final ReceivePort receivePort = ReceivePort();
-  final SendPort sendPort = params.sendPort;
+Future<void> isolateEntryPoint(IsolateInitParams params) async {
+  final receivePort = ReceivePort();
+  final sendPort = params.sendPort;
 
   sendPort.send(receivePort.sendPort);
 
-  await for (Task task in receivePort) {
+  await for (final Task task in receivePort) {
     try {
-      var computationResult = await task.task(task.param);
-      TaskResult result = TaskResult(
+      final computationResult = await task.task(task.param);
+      final result = TaskResult(
         result: computationResult,
         capability: task.capability,
       );
