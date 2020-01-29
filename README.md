@@ -8,14 +8,26 @@ Computer is a lightweight library for concurrent computations, which provides Fl
 - No overhead for creating & releasing isolates for each task. Workers initialized on start and ready to solve your tasks
 - Strictly defined count of workers
 
+## Update
+
+Computer is no longer a singleton. If you still need a singleton solution, you can make it on your own like in example
+
+<!--
+TODO:
+
+- Add a singleton example
+-->
+
 ## How to use
 
-Computer is a singleton, that provides just 3 methods
+Computer provides just 3 methods
 
 ### turnOn()
 
 ```dart
-await Computer().turnOn(
+final computer = Computer();
+
+await computer.turnOn(
   workersCount: 4, // optional, default 2
   areLogsEnabled: false, // optional, default false
 );
@@ -26,7 +38,7 @@ Before using the `Computer` you need to `turnOn` it. This will create workers an
 ### compute()
 
 ```dart
-var answer = await Computer().compute(
+var answer = await computer.compute(
   fib,
   param: 45, // optional
 );
@@ -37,7 +49,7 @@ var answer = await Computer().compute(
 ### turnOff()
 
 ```dart
-await Computer().turnOff();
+await computer.turnOff();
 ```
 
 If you don't need workers anymore, you should `turnOff` the Computer. It will destroy workers.
