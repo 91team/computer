@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:computer/src/error.dart';
 import 'package:meta/meta.dart';
 
-import 'error.dart';
 import 'task.dart';
 
 typedef OnResultFunction = void Function(TaskResult result, Worker worker);
