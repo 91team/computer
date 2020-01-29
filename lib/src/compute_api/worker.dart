@@ -51,6 +51,7 @@ class Worker {
     _sendPort = await _broadcastReceivePort.first;
 
     _broadcastPortSubscription = _broadcastReceivePort.listen((res) {
+      status = WorkerStatus.idle;
       if (res is RemoteExecutionError) {
         onError(res, this);
         return;

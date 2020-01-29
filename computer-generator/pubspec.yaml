@@ -1,0 +1,19 @@
+name: computer_generator
+description: A starting point for Dart libraries or applications.
+version: 0.0.1
+
+environment:
+  sdk: ">=2.6.0 <3.0.0"
+
+dependencies:
+  analyzer: ^0.39.4
+  build: ^1.2.2
+  computer:
+    path: ../
+  source_gen: ^0.9.4+7
+
+dev_dependencies:
+  build_config: ^0.4.1+1
+  build_runner: ^1.7.3
+  pedantic: ^1.7.0
+  test: ^1.6.0

@@ -6,6 +6,8 @@ import 'compute_api/compute_api.dart';
 import 'launch_api/defs.dart';
 import 'launch_api/launch_api.dart';
 
+export 'launch_api/annotations.dart';
+
 /// Class, that provides compute() like API for concurrent calculations
 
 class Computer {

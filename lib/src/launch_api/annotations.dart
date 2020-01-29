@@ -1,0 +1,3 @@
+class ComputerLaunchable {
+  const ComputerLaunchable();
+}
