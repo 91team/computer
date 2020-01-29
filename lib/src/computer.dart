@@ -1,11 +1,16 @@
 import 'dart:async';
 
-import 'compute_api/compute_api_delegate.dart';
+import 'package:computer/src/launch_api/isolate_side_launchable.dart';
+import 'package:computer/src/launch_api/process.dart';
+
+import 'compute_api/compute_api.dart';
+import 'launch_api/launch_api.dart';
 
 /// Class, that provides compute() like API for concurrent calculations
 
 class Computer {
   ComputeAPI computeDelegate = ComputeAPI();
+  LaunchAPI launchDelegate = LaunchAPI();
 
   /// Before any computation you need to turn on the Computer
 
@@ -30,5 +35,11 @@ class Computer {
 
   Future<void> turnOff() async {
     return computeDelegate.turnOff();
+  }
+
+  /// You can run any long living heavy handlers in isolate and communicate with them like with usual objects
+
+  Future<Process> launch<T extends IsolateSideLaunchable>(CreateIsolateLaunchable createIsolateLaunchable) async {
+    return launchDelegate.launch(createIsolateLaunchable);
   }
 }
