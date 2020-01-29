@@ -2,11 +2,9 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:computer/src/error.dart';
-import 'package:computer/src/launch_api/isolate_side_launchable.dart';
 import 'package:meta/meta.dart';
 
-import 'command.dart';
-import 'reply.dart';
+import 'defs.dart';
 
 enum ProcessStatus { idle, processing, paused, finished }
 

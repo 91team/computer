@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:computer/src/launch_api/isolate_side_launchable.dart';
 import 'package:computer/src/launch_api/process.dart';
 
 import 'compute_api/compute_api.dart';
+import 'launch_api/defs.dart';
 import 'launch_api/launch_api.dart';
 
 /// Class, that provides compute() like API for concurrent calculations

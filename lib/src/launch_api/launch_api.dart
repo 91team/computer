@@ -1,4 +1,4 @@
-import 'launchable.dart';
+import 'defs.dart';
 import 'process.dart';
 
 class LaunchAPI {
