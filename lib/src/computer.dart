@@ -8,17 +8,9 @@ import 'package:computer/src/logger.dart';
 import 'task.dart';
 import 'worker.dart';
 
-/// Singleton, that provides compute() like API for concurrent calculations
+/// Class, that provides compute() like API for concurrent calculations
 
 class Computer {
-  static final Computer _instance = Computer._internal();
-
-  factory Computer() {
-    return _instance;
-  }
-
-  Computer._internal();
-
   List<Worker> _workers;
   Queue<Task> _taskQueue;
 
