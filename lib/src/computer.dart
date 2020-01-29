@@ -38,6 +38,7 @@ class Computer {
   }
 
   /// You can run any long living heavy handlers in isolate and communicate with them like with usual objects
+  /// Exists separatly of compute and no need to turn on or turn off
 
   Future<Process> launch<T extends IsolateSideLaunchable>(CreateIsolateLaunchable createIsolateLaunchable) async {
     return launchDelegate.launch(createIsolateLaunchable);

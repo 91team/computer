@@ -13,4 +13,6 @@ abstract class Launchable {
 
 abstract class IsolateSideLaunchable {
   void dispatch(Command command);
+  void launch();
+  void terminate();
 }

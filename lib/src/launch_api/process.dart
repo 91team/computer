@@ -76,6 +76,7 @@ Future<void> isolateEntryPoint(IsolateInitParams params) async {
   final sendPort = params.sendPort;
 
   IsolateSideLaunchable launchable = params.createIsolateLaunchable(sendPort);
+  launchable.launch();
 
   sendPort.send(receivePort.sendPort);
 
