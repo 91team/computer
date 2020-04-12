@@ -80,7 +80,10 @@ Future<void> isolateEntryPoint(IsolateInitParams params) async {
 
   await for (final Task task in receivePort) {
     try {
-      final computationResult = await task.task(task.param);
+      final shouldPassParam = task.param != null;
+
+      final computationResult = shouldPassParam ? await task.task(task.param) : await task.task();
+
       final result = TaskResult(
         result: computationResult,
         capability: task.capability,
