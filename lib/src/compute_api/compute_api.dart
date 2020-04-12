@@ -12,11 +12,13 @@ class ComputeAPI {
   List<Worker> _workers;
   Queue<Task> _taskQueue;
 
+  bool isRunning = false;
+
   final Map<Capability, Completer> _activeTaskCompleters = {};
 
   Future<void> turnOn({
     int workersCount = 2,
-    bool areLogsEnabled,
+    bool areLogsEnabled = false,
   }) async {
     if (areLogsEnabled) {
       Logger.enable();
@@ -33,6 +35,8 @@ class ComputeAPI {
       _workers.add(worker);
       Logger.log('Worker $i has started');
     }
+
+    isRunning = true;
   }
 
   Future<R> compute<P, R>(
@@ -82,6 +86,8 @@ class ComputeAPI {
       }
     });
     _activeTaskCompleters.clear();
+
+    isRunning = false;
 
     Logger.log('Turned off computer');
   }

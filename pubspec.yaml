@@ -5,5 +5,9 @@ description: Easy to use pool of concurent workers with compute() like API.
 homepage: https://github.com/ninenone/computer
 environment:
   sdk: ">=2.0.0-dev.49.0 <3.0.0"
+
 dependencies:
   meta: ^1.1.7
+
+dev_dependencies:
+  test: ^1.14.2
