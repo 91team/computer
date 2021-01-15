@@ -53,8 +53,8 @@ int fib(int n) {
 int fib20() {
   const n = 20;
 
-  final number1 = n - 1;
-  final number2 = n - 2;
+  const number1 = n - 1;
+  const number2 = n - 2;
 
   if (n == 1) {
     return 0;

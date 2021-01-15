@@ -1,11 +1,12 @@
-## 1.0.0
 
-Published package
+# 1.0.2
 
-## 1.0.1
+- Fixed typos & turnOn()
 
-Added README, fixed pub package troubles
+# 1.0.1
 
-## 1.0.2
+- Added README, fixed pub package troubles
 
-Fixed typos & turnOn()
+# 1.0.0
+
+- Published package

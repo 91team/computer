@@ -1,0 +1,12 @@
+name: dart
+description: Computer example
+
+environment:
+  sdk: ">=2.4.0 <3.0.0"
+
+dependencies:
+  computer:
+    path: ../../
+
+dev_dependencies:
+  

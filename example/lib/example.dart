@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:computer/computer.dart';
 
-Future<void> run() async {
+Future<void> main() async {
   final computer = Computer();
 
   await computer.turnOn(areLogsEnabled: true);
