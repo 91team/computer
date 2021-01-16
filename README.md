@@ -8,15 +8,9 @@
 - No overhead on creating & releasing isolates for each task. Workers initialized on start and ready to solve your tasks
 - Strictly defined number of workers
 
-## Update
+## Note
 
-`Computer` is no longer a singleton. If you still need a singleton solution, you can make it on your own like in example
-
-<!--
-TODO:
-
-- Add a singleton example
--->
+`Computer` is no longer a singleton. If you still need a singleton solution, you can make it on your own by wrapping `Computer` in your singleton
 
 ## How to use
 

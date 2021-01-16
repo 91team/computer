@@ -13,9 +13,9 @@ class ComputeAPI {
 
   final _taskQueue = Queue<Task>();
 
-  Logger _logger;
-
   final _activeTaskCompleters = <Capability, Completer>{};
+
+  Logger _logger;
 
   bool isRunning = false;
 

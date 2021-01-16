@@ -5,7 +5,7 @@
 - Added docs to public API
 - Updated Readme
 - Bumped minimum dart version to 2.4.0
-- Improve testing
+- Added new tests
 
 # 1.0.2
 
