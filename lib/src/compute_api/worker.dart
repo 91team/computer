@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:computer/src/error.dart';
+import 'package:computer/src/errors.dart';
 import 'package:meta/meta.dart';
 
 import 'task.dart';
 
-typedef OnResultFunction = void Function(TaskResult result, Worker worker);
-typedef OnErrorFunction = void Function(RemoteExecutionError error, Worker worker);
+typedef OnResultCallback = void Function(TaskResult result, Worker worker);
+typedef OnErrorCallback = void Function(RemoteExecutionError error, Worker worker);
 
 enum WorkerStatus { idle, processing }
 
@@ -32,8 +32,8 @@ class Worker {
   Worker(this.name);
 
   Future<void> init({
-    @required OnResultFunction onResult,
-    @required OnErrorFunction onError,
+    @required OnResultCallback onResult,
+    @required OnErrorCallback onError,
   }) async {
     _receivePort = ReceivePort();
 

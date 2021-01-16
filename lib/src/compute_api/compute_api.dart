@@ -2,19 +2,19 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:isolate';
 
-import 'package:computer/src/error.dart';
+import 'package:computer/src/errors.dart';
 import 'package:computer/src/logger.dart';
 
 import 'task.dart';
 import 'worker.dart';
 
 class ComputeAPI {
-  List<Worker> _workers;
-  Queue<Task> _taskQueue;
+  final _workers = <Worker>[];
+  final _taskQueue = Queue<Task>();
 
   bool isRunning = false;
 
-  final Map<Capability, Completer> _activeTaskCompleters = {};
+  final _activeTaskCompleters = <Capability, Completer>{};
 
   Future<void> turnOn({
     int workersCount = 2,
@@ -25,8 +25,6 @@ class ComputeAPI {
     }
 
     Logger.log('Turning on');
-    _workers = [];
-    _taskQueue = Queue();
 
     for (var i = 0; i < workersCount; i++) {
       Logger.log('Starting worker $i...');
@@ -86,6 +84,9 @@ class ComputeAPI {
       }
     });
     _activeTaskCompleters.clear();
+
+    _workers.clear();
+    _taskQueue.clear();
 
     isRunning = false;
 

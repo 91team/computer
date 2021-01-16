@@ -37,7 +37,7 @@ await computer.turnOn(
 
 ### compute()
 
-`compute` will execute your function inside one of the workers. Function may be `async`. The callback argument must be a top-level function, not a closure or an instance or static method of a class.
+`compute` will execute your function inside one of the workers. Function may be `async`. The callback argument must be a top-level or static method of a class.
 
 ```dart
 var answer = await computer.compute(
