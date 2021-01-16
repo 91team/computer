@@ -6,7 +6,5 @@ environment:
 
 dependencies:
   computer:
-    path: ../../
-
-dev_dependencies:
+    path: ../
   

@@ -1,6 +1,7 @@
 
-# 1.0.3
+# 1.1.0
 
+- **BREAKING**: `areLogsEnabled` renamed to `verbose`
 - Added docs to public API
 - Updated Readme
 - Bumped minimum dart version to 2.4.0

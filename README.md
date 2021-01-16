@@ -31,7 +31,7 @@ final computer = Computer();
 
 await computer.turnOn(
   workersCount: 4, // optional, default 2
-  areLogsEnabled: false, // optional, default false
+  verbose: false, // optional, default false
 );
 ```
 
@@ -40,7 +40,7 @@ await computer.turnOn(
 `compute` will execute your function inside one of the workers. Function may be `async`. The callback argument must be a top-level or static method of a class.
 
 ```dart
-var answer = await computer.compute(
+final result = await computer.compute(
   fib,
   param: 45, // optional
 );

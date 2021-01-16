@@ -13,9 +13,9 @@ class Computer {
 
   Future<void> turnOn({
     int workersCount = 2,
-    bool areLogsEnabled = false,
+    bool verbose = false,
   }) async {
-    return _computeDelegate.turnOn(workersCount: workersCount, areLogsEnabled: areLogsEnabled);
+    return _computeDelegate.turnOn(workersCount: workersCount, verbose: verbose);
   }
 
   /// Executes function with passed param. Takes only global functions & static methods.
@@ -23,9 +23,8 @@ class Computer {
   Future<R> compute<P, R>(
     Function fn, {
     P param,
-    // Duration timeout,
   }) async {
-    return _computeDelegate.compute(fn, param: param);
+    return _computeDelegate.compute<P, R>(fn, param: param);
   }
 
   /// If you don't need workers anymore, you should turn off the computer

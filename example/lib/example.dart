@@ -5,7 +5,7 @@ import 'package:computer/computer.dart';
 Future<void> main() async {
   final computer = Computer();
 
-  await computer.turnOn(areLogsEnabled: true);
+  await computer.turnOn(verbose: false);
   try {
     final a = await computer.compute<int, int>(fib, param: null);
     print('Calculated a: $a');
@@ -35,7 +35,7 @@ int fib(int n) {
 }
 
 Future<int> asyncFib(int n) async {
-  await Future.delayed(const Duration(seconds: 2));
+  await Future<void>.delayed(const Duration(seconds: 2));
 
   final number1 = n - 1;
   final number2 = n - 2;
