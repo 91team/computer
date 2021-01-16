@@ -6,8 +6,15 @@ import 'package:meta/meta.dart';
 
 import 'task.dart';
 
-typedef OnResultCallback = void Function(TaskResult result, Worker worker);
-typedef OnErrorCallback = void Function(RemoteExecutionError error, Worker worker);
+typedef OnResultCallback = void Function(
+  TaskResult result,
+  Worker worker,
+);
+
+typedef OnErrorCallback = void Function(
+  RemoteExecutionError error,
+  Worker worker,
+);
 
 enum WorkerStatus { idle, processing }
 
@@ -82,7 +89,8 @@ Future<void> isolateEntryPoint(IsolateInitParams params) async {
     try {
       final shouldPassParam = task.param != null;
 
-      final computationResult = shouldPassParam ? await task.task(task.param) : await task.task();
+      final computationResult =
+          shouldPassParam ? await task.task(task.param) : await task.task();
 
       final result = TaskResult(
         result: computationResult,

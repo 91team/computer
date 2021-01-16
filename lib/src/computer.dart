@@ -15,7 +15,10 @@ class Computer {
     int workersCount = 2,
     bool verbose = false,
   }) async {
-    return _computeDelegate.turnOn(workersCount: workersCount, verbose: verbose);
+    return _computeDelegate.turnOn(
+      workersCount: workersCount,
+      verbose: verbose,
+    );
   }
 
   /// Executes function `fn` with passed `param`. Takes only top-level functions and static methods.

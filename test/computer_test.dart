@@ -79,7 +79,10 @@ void main() {
     final computer = Computer();
     await computer.turnOn();
 
-    expect(await computer.compute(Fibonacci.fib, param: 20), equals(Fibonacci.fib(20)));
+    expect(
+      await computer.compute(Fibonacci.fib, param: 20),
+      equals(Fibonacci.fib(20)),
+    );
 
     await computer.turnOff();
   });
@@ -88,7 +91,10 @@ void main() {
     final computer = Computer();
     await computer.turnOn();
 
-    expect(await computer.compute(fibAsync, param: 20), equals(await fibAsync(20)));
+    expect(
+      await computer.compute(fibAsync, param: 20),
+      equals(await fibAsync(20)),
+    );
 
     await computer.turnOff();
   });
@@ -97,7 +103,10 @@ void main() {
     final computer = Computer();
     await computer.turnOn();
 
-    expect(() async => await computer.compute(errorFib, param: 20), throwsA(isA<RemoteExecutionError>()));
+    expect(
+      () async => await computer.compute(errorFib, param: 20),
+      throwsA(isA<RemoteExecutionError>()),
+    );
 
     await computer.turnOff();
   });

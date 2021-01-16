@@ -1,4 +1,8 @@
 
+# 1.1.1
+
+- Format source code according to dartfmt
+
 # 1.1.0
 
 - **BREAKING**: `areLogsEnabled` renamed to `verbose`
