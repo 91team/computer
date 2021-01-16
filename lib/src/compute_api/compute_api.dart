@@ -94,8 +94,9 @@ class ComputeAPI {
   }
 
   Worker? _findFreeWorker() {
-    return _workers
-        .firstWhereOrNull((worker) => worker.status == WorkerStatus.idle);
+    return _workers.firstWhereOrNull(
+      (worker) => worker.status == WorkerStatus.idle,
+    );
   }
 
   void _onTaskFinished(TaskResult result, Worker worker) {
