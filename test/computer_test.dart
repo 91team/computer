@@ -1,4 +1,5 @@
 import 'package:computer/computer.dart';
+import 'package:computer/src/errors.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -91,6 +92,15 @@ void main() {
 
     await computer.turnOff();
   });
+
+  test('Error method', () async {
+    final computer = Computer();
+    await computer.turnOn();
+
+    expect(() async => await computer.compute(errorFib, param: 20), throwsA(isA<RemoteExecutionError>()));
+
+    await computer.turnOff();
+  });
 }
 
 int fib(int n) {
@@ -98,6 +108,10 @@ int fib(int n) {
     return n;
   }
   return fib(n - 2) + fib(n - 1);
+}
+
+int errorFib(int n) {
+  throw Exception('Something went wrong');
 }
 
 Future<int> fibAsync(int n) async {

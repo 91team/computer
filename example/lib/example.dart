@@ -5,7 +5,10 @@ import 'package:computer/computer.dart';
 Future<void> main() async {
   final computer = Computer();
 
-  await computer.turnOn(verbose: false);
+  await computer.turnOn(
+    workersCount: 2,
+    verbose: true,
+  );
   try {
     final a = await computer.compute<int, int>(fib, param: null);
     print('Calculated a: $a');
