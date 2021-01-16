@@ -1,4 +1,8 @@
 
+# 2.0.0-nullsafety.0
+
+- Migrated to nullsafety
+
 # 1.1.1
 
 - Format source code according to dartfmt

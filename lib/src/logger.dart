@@ -1,7 +1,5 @@
-import 'package:meta/meta.dart';
-
 class Logger {
-  Logger({@required this.enabled});
+  Logger({required this.enabled});
 
   final bool enabled;
 

@@ -25,7 +25,7 @@ class Computer {
   /// `P` is `param` type, `R` is function return type
   Future<R> compute<P, R>(
     Function fn, {
-    P param,
+    P? param,
   }) async {
     return _computeDelegate.compute<P, R>(fn, param: param);
   }

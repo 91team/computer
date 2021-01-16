@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:computer/src/errors.dart';
-import 'package:meta/meta.dart';
 
 import 'task.dart';
 
@@ -21,7 +20,7 @@ enum WorkerStatus { idle, processing }
 class IsolateInitParams {
   SendPort sendPort;
 
-  IsolateInitParams({@required this.sendPort});
+  IsolateInitParams({required this.sendPort});
 }
 
 class Worker {
@@ -29,18 +28,17 @@ class Worker {
 
   WorkerStatus status = WorkerStatus.idle;
 
-  Isolate _isolate;
-  SendPort _sendPort;
-  ReceivePort _receivePort;
-  Stream _broadcastReceivePort;
-
-  StreamSubscription _broadcastPortSubscription;
+  late final Isolate _isolate;
+  late final SendPort _sendPort;
+  late final ReceivePort _receivePort;
+  late final Stream _broadcastReceivePort;
+  late final StreamSubscription _broadcastPortSubscription;
 
   Worker(this.name);
 
   Future<void> init({
-    @required OnResultCallback onResult,
-    @required OnErrorCallback onError,
+    required OnResultCallback onResult,
+    required OnErrorCallback onError,
   }) async {
     _receivePort = ReceivePort();
 
@@ -89,8 +87,7 @@ Future<void> isolateEntryPoint(IsolateInitParams params) async {
     try {
       final shouldPassParam = task.param != null;
 
-      final computationResult =
-          shouldPassParam ? await task.task(task.param) : await task.task();
+      final computationResult = shouldPassParam ? await task.task(task.param) : await task.task();
 
       final result = TaskResult(
         result: computationResult,

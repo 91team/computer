@@ -25,29 +25,17 @@ Future<void> main() async {
 }
 
 int fib(int n) {
-  final number1 = n - 1;
-  final number2 = n - 2;
-
-  if (n == 1) {
-    return 0;
-  } else if (n == 0) {
-    return 1;
-  } else {
-    return fib(number1) + fib(number2);
+  if (n < 2) {
+    return n;
   }
+  return fib(n - 2) + fib(n - 1);
 }
 
 Future<int> asyncFib(int n) async {
   await Future<void>.delayed(const Duration(seconds: 2));
 
-  final number1 = n - 1;
-  final number2 = n - 2;
-
-  if (n == 1) {
-    return 0;
-  } else if (n == 0) {
-    return 1;
-  } else {
-    return fib(number1) + fib(number2);
+  if (n < 2) {
+    return n;
   }
+  return fib(n - 2) + fib(n - 1);
 }

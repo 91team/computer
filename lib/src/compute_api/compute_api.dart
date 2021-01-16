@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:isolate';
 
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:computer/src/errors.dart';
 import 'package:computer/src/logger.dart';
 
@@ -15,7 +16,7 @@ class ComputeAPI {
 
   final _activeTaskCompleters = <Capability, Completer>{};
 
-  Logger _logger;
+  late Logger _logger;
 
   bool isRunning = false;
 
@@ -40,7 +41,7 @@ class ComputeAPI {
 
   Future<R> compute<P, R>(
     Function fn, {
-    P param,
+    P? param,
   }) async {
     _logger.log('Started computation');
 
@@ -92,15 +93,12 @@ class ComputeAPI {
     _logger.log('Turned off computer');
   }
 
-  Worker _findFreeWorker() {
-    return _workers.firstWhere(
-      (worker) => worker.status == WorkerStatus.idle,
-      orElse: () => null,
-    );
+  Worker? _findFreeWorker() {
+    return _workers.firstWhereOrNull((worker) => worker.status == WorkerStatus.idle);
   }
 
   void _onTaskFinished(TaskResult result, Worker worker) {
-    final taskCompleter = _activeTaskCompleters.remove(result.capability);
+    final taskCompleter = _activeTaskCompleters.remove(result.capability)!;
     taskCompleter.complete(result.result);
 
     if (_taskQueue.isNotEmpty) {
@@ -111,7 +109,7 @@ class ComputeAPI {
   }
 
   void _onTaskFailed(RemoteExecutionError error, Worker worker) {
-    final taskCompleter = _activeTaskCompleters.remove(error.taskCapability);
+    final taskCompleter = _activeTaskCompleters.remove(error.taskCapability)!;
     taskCompleter.completeError(error);
 
     if (_taskQueue.isNotEmpty) {
