@@ -1,3 +1,0 @@
-class ComputerLaunchable {
-  const ComputerLaunchable();
-}
