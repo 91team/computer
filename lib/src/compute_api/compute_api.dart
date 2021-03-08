@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:isolate';
 
-import 'package:collection/collection.dart' show IterableExtension;
 import 'package:computer/src/errors.dart';
 import 'package:computer/src/logger.dart';
 
@@ -94,9 +93,10 @@ class ComputeAPI {
   }
 
   Worker? _findFreeWorker() {
-    return _workers.firstWhereOrNull(
-      (worker) => worker.status == WorkerStatus.idle,
-    );
+    for (final worker in _workers) {
+      if (worker.status == WorkerStatus.idle) return worker;
+    }
+    return null;
   }
 
   void _onTaskFinished(TaskResult result, Worker worker) {
