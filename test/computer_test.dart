@@ -110,6 +110,13 @@ void main() {
 
     await computer.turnOff();
   });
+
+  test('Computer is a singleton', () async {
+    final computer1 = Computer();
+    final computer2 = Computer();
+
+    expect(computer1 == computer2, equals(true));
+  });
 }
 
 int fib(int n) {

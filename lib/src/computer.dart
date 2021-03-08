@@ -6,6 +6,12 @@ import 'compute_api/compute_api.dart';
 class Computer {
   final _computeDelegate = ComputeAPI();
 
+  factory Computer() => _singleton;
+
+  Computer._internal();
+
+  static final _singleton = Computer._internal();
+
   /// Returns `true` if `Computer` turned on and `false` otherwise
   bool get isRunning => _computeDelegate.isRunning;
 

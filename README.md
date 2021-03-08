@@ -10,7 +10,7 @@
 
 ## Note
 
-`Computer` is no longer a singleton. If you still need a singleton solution, you can make it on your own by wrapping `Computer` in your singleton
+`Computer` is a singleton
 
 ## How to use
 

@@ -87,7 +87,8 @@ Future<void> isolateEntryPoint(IsolateInitParams params) async {
     try {
       final shouldPassParam = task.param != null;
 
-      final dynamic computationResult = shouldPassParam ? await task.task(task.param) : await task.task();
+      final dynamic computationResult =
+          shouldPassParam ? await task.task(task.param) : await task.task();
 
       final result = TaskResult(
         result: computationResult,

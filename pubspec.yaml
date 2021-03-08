@@ -1,5 +1,5 @@
 name: computer
-version: 2.0.0-nullsafety.1
+version: 2.0.0
 author: Sergei Lavinov <lsa@91.team>
 description: Easy to use pool of concurrent workers with compute() like API.
 homepage: https://github.com/91team/computer

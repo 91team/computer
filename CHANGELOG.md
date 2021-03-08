@@ -1,15 +1,10 @@
-
-# 2.0.0-nullsafety.1
-
-- Return meta dependency
-
-# 2.0.0-nullsafety.0
+# 2.0.0
 
 - Migrated to nullsafety
 
 # 1.1.1
 
-- Format source code according to dartfmt
+- Formatted source code according to dartfmt
 
 # 1.1.0
 
