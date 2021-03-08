@@ -53,15 +53,15 @@ class Worker {
 
     _broadcastReceivePort = _receivePort.asBroadcastStream();
 
-    _sendPort = await _broadcastReceivePort.first;
+    _sendPort = await _broadcastReceivePort.first as SendPort;
 
-    _broadcastPortSubscription = _broadcastReceivePort.listen((res) {
+    _broadcastPortSubscription = _broadcastReceivePort.listen((dynamic res) {
       status = WorkerStatus.idle;
       if (res is RemoteExecutionError) {
         onError(res, this);
         return;
       }
-      onResult(res, this);
+      onResult(res as TaskResult, this);
     });
   }
 
@@ -83,12 +83,11 @@ Future<void> isolateEntryPoint(IsolateInitParams params) async {
 
   sendPort.send(receivePort.sendPort);
 
-  await for (final Task task in receivePort) {
+  await for (final Task task in receivePort.cast<Task>()) {
     try {
       final shouldPassParam = task.param != null;
 
-      final computationResult =
-          shouldPassParam ? await task.task(task.param) : await task.task();
+      final dynamic computationResult = shouldPassParam ? await task.task(task.param) : await task.task();
 
       final result = TaskResult(
         result: computationResult,

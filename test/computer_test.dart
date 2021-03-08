@@ -30,7 +30,7 @@ void main() {
     expect(computer.isRunning, equals(false));
     await computer.turnOn();
     expect(computer.isRunning, equals(true));
-    expect(await computer.compute(fib, param: 20), equals(fib(20)));
+    expect(await computer.compute<int, int>(fib, param: 20), equals(fib(20)));
     await computer.turnOff();
   });
 
@@ -38,7 +38,7 @@ void main() {
     final computer = Computer();
     await computer.turnOn();
 
-    expect(await computer.compute(fib, param: 20), equals(fib(20)));
+    expect(await computer.compute<int, int>(fib, param: 20), equals(fib(20)));
 
     await computer.turnOff();
   });
@@ -70,7 +70,7 @@ void main() {
     final computer = Computer();
     await computer.turnOn();
 
-    expect(await computer.compute(fib20), equals(fib20()));
+    expect(await computer.compute<int, int>(fib20), equals(fib20()));
 
     await computer.turnOff();
   });
@@ -80,7 +80,7 @@ void main() {
     await computer.turnOn();
 
     expect(
-      await computer.compute(Fibonacci.fib, param: 20),
+      await computer.compute<int, int>(Fibonacci.fib, param: 20),
       equals(Fibonacci.fib(20)),
     );
 
@@ -92,7 +92,7 @@ void main() {
     await computer.turnOn();
 
     expect(
-      await computer.compute(fibAsync, param: 20),
+      await computer.compute<int, int>(fibAsync, param: 20),
       equals(await fibAsync(20)),
     );
 
@@ -104,7 +104,7 @@ void main() {
     await computer.turnOn();
 
     expect(
-      () async => await computer.compute(errorFib, param: 20),
+      () async => await computer.compute<int, int>(errorFib, param: 20),
       throwsA(isA<RemoteExecutionError>()),
     );
 
@@ -124,7 +124,7 @@ int errorFib(int n) {
 }
 
 Future<int> fibAsync(int n) async {
-  await Future.delayed(const Duration(milliseconds: 100));
+  await Future<void>.delayed(const Duration(milliseconds: 100));
 
   return fib(n);
 }
