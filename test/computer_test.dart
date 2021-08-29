@@ -1,5 +1,6 @@
 import 'package:computer/computer.dart';
 import 'package:computer/src/errors.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -97,6 +98,14 @@ void main() {
     );
 
     await computer.turnOff();
+  });
+
+  test('Add computes before workers have been created', () async {
+    final computer = Computer();
+    expect(Future.value(computer.compute<int, int>(fib, param: 20)), completion(equals(fib20())));
+    unawaited(computer.turnOn());
+
+    addTearDown(() async => await computer.turnOff());
   });
 
   test('Error method', () async {

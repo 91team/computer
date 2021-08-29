@@ -33,6 +33,11 @@ class ComputeAPI {
       await worker.init(onResult: _onTaskFinished, onError: _onTaskFailed);
       _workers.add(worker);
       _logger.log('Worker $i has started');
+      if (_taskQueue.isNotEmpty) {
+        _logger.log("Queue isn't empty, new worker picking task");
+        final task = _taskQueue.removeFirst();
+        worker.execute(task);
+      }
     }
 
     isRunning = true;
