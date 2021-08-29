@@ -36,6 +36,7 @@ class ComputeAPI {
       if (_taskQueue.isNotEmpty) {
         _logger.log("Queue isn't empty, new worker picking task");
         final task = _taskQueue.removeFirst();
+        isRunning = true;
         worker.execute(task);
       }
     }
