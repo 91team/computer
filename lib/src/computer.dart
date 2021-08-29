@@ -15,7 +15,7 @@ class Computer {
   /// Returns `true` if `Computer` turned on and `false` otherwise
   bool get isRunning => _computeDelegate.isRunning;
 
-  /// Turn on `Computer`, `workersCount` should not be more than 0, default is 2
+  /// Turn on `Computer`, `workersCount` should not be less than 1, default is 2
   /// `verbose` is false by default, enabling it leads to logging of every operation
   Future<void> turnOn({
     int workersCount = 2,

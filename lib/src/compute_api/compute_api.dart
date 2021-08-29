@@ -18,6 +18,7 @@ class ComputeAPI {
   late Logger _logger;
 
   bool isRunning = false;
+  bool _allowCreating = false;
 
   Future<void> turnOn({
     int workersCount = 2,
@@ -26,11 +27,19 @@ class ComputeAPI {
     _logger = Logger(enabled: verbose);
 
     _logger.log('Turning on');
+    _allowCreating = true;
 
     for (var i = 0; i < workersCount; i++) {
+      if (!_allowCreating) {
+        return;
+      }
       _logger.log('Starting worker $i...');
       final worker = Worker('worker$i');
       await worker.init(onResult: _onTaskFinished, onError: _onTaskFailed);
+      if (!_allowCreating) {
+        await worker.dispose();
+        return;
+      }
       _workers.add(worker);
       _logger.log('Worker $i has started');
       if (_taskQueue.isNotEmpty) {
@@ -77,6 +86,7 @@ class ComputeAPI {
 
   Future<void> turnOff() async {
     _logger.log('Turning off computer...');
+    _allowCreating = false;
     for (final worker in _workers) {
       await worker.dispose();
     }
