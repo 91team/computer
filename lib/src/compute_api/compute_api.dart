@@ -58,8 +58,12 @@ class ComputeAPI {
     final freeWorker = _findFreeWorker();
 
     if (freeWorker == null) {
-      _logger.log('No free workers, add task to the queue');
-      _taskQueue.add(task);
+      Logger.log('No free workers, add task to the queue');
+      if (_workers.length == 1) {
+        _workers.single.execute(task);
+      } else {
+        _taskQueue.add(task);
+      }
     } else {
       _logger.log('Found free worker, executing on it');
       freeWorker.execute(task);
