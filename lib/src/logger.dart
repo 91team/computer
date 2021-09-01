@@ -1,17 +1,11 @@
 class Logger {
-  static bool _isEnabled = false;
+  Logger({required this.enabled});
 
-  static void log(String message) {
-    if (_isEnabled) {
-      print('[Computer] $message [${DateTime.now()}]');
+  final bool enabled;
+
+  void log(String message) {
+    if (enabled) {
+      print('[Computer][${DateTime.now()}] $message');
     }
-  }
-
-  static void enable() {
-    _isEnabled = true;
-  }
-
-  static void disable() {
-    _isEnabled = false;
   }
 }

@@ -1,20 +1,26 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:computer/src/error.dart';
-import 'package:meta/meta.dart';
+import 'package:computer/src/errors.dart';
 
 import 'task.dart';
 
-typedef OnResultFunction = void Function(TaskResult result, Worker worker);
-typedef OnErrorFunction = void Function(RemoteExecutionError error, Worker worker);
+typedef OnResultCallback = void Function(
+  TaskResult result,
+  Worker worker,
+);
+
+typedef OnErrorCallback = void Function(
+  RemoteExecutionError error,
+  Worker worker,
+);
 
 enum WorkerStatus { idle, processing }
 
 class IsolateInitParams {
   SendPort sendPort;
 
-  IsolateInitParams({@required this.sendPort});
+  IsolateInitParams({required this.sendPort});
 }
 
 class Worker {
@@ -22,18 +28,17 @@ class Worker {
 
   WorkerStatus status = WorkerStatus.idle;
 
-  Isolate _isolate;
-  SendPort _sendPort;
-  ReceivePort _receivePort;
-  Stream _broadcastReceivePort;
-
-  StreamSubscription _broadcastPortSubscription;
+  late final Isolate _isolate;
+  late final SendPort _sendPort;
+  late final ReceivePort _receivePort;
+  late final Stream _broadcastReceivePort;
+  late final StreamSubscription _broadcastPortSubscription;
 
   Worker(this.name);
 
   Future<void> init({
-    @required OnResultFunction onResult,
-    @required OnErrorFunction onError,
+    required OnResultCallback onResult,
+    required OnErrorCallback onError,
   }) async {
     _receivePort = ReceivePort();
 
@@ -48,15 +53,15 @@ class Worker {
 
     _broadcastReceivePort = _receivePort.asBroadcastStream();
 
-    _sendPort = await _broadcastReceivePort.first;
+    _sendPort = await _broadcastReceivePort.first as SendPort;
 
-    _broadcastPortSubscription = _broadcastReceivePort.listen((res) {
+    _broadcastPortSubscription = _broadcastReceivePort.listen((dynamic res) {
       status = WorkerStatus.idle;
       if (res is RemoteExecutionError) {
         onError(res, this);
         return;
       }
-      onResult(res, this);
+      onResult(res as TaskResult, this);
     });
   }
 
@@ -78,11 +83,12 @@ Future<void> isolateEntryPoint(IsolateInitParams params) async {
 
   sendPort.send(receivePort.sendPort);
 
-  await for (final Task task in receivePort) {
+  await for (final Task task in receivePort.cast<Task>()) {
     try {
       final shouldPassParam = task.param != null;
 
-      final computationResult = shouldPassParam ? await task.task(task.param) : await task.task();
+      final dynamic computationResult =
+          shouldPassParam ? await task.task(task.param) : await task.task();
 
       final result = TaskResult(
         result: computationResult,

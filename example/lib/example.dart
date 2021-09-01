@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:computer/computer.dart';
 
-Future<void> run() async {
+Future<void> main() async {
   final computer = Computer();
 
-  await computer.turnOn(areLogsEnabled: true);
+  await computer.turnOn(
+    workersCount: 2,
+    verbose: true,
+  );
   try {
     final a = await computer.compute<int, int>(fib, param: null);
     print('Calculated a: $a');
@@ -22,29 +25,17 @@ Future<void> run() async {
 }
 
 int fib(int n) {
-  final number1 = n - 1;
-  final number2 = n - 2;
-
-  if (n == 1) {
-    return 0;
-  } else if (n == 0) {
-    return 1;
-  } else {
-    return fib(number1) + fib(number2);
+  if (n < 2) {
+    return n;
   }
+  return fib(n - 2) + fib(n - 1);
 }
 
 Future<int> asyncFib(int n) async {
-  await Future.delayed(const Duration(seconds: 2));
+  await Future<void>.delayed(const Duration(seconds: 2));
 
-  final number1 = n - 1;
-  final number2 = n - 2;
-
-  if (n == 1) {
-    return 0;
-  } else if (n == 0) {
-    return 1;
-  } else {
-    return fib(number1) + fib(number2);
+  if (n < 2) {
+    return n;
   }
+  return fib(n - 2) + fib(n - 1);
 }

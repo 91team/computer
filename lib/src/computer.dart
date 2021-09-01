@@ -1,51 +1,43 @@
 import 'dart:async';
 
-import 'package:computer/src/launch_api/process.dart';
-
 import 'compute_api/compute_api.dart';
-import 'launch_api/defs.dart';
-import 'launch_api/launch_api.dart';
 
-export 'launch_api/annotations.dart';
-
-/// Class, that provides compute() like API for concurrent calculations
-
+/// Class, that provides `compute` like API for concurrent calculations
 class Computer {
   final _computeDelegate = ComputeAPI();
-  final _launchDelegate = LaunchAPI();
 
+  factory Computer() => _singleton;
+
+  Computer._internal();
+
+  static final _singleton = Computer._internal();
+
+  /// Returns `true` if `Computer` turned on and `false` otherwise
   bool get isRunning => _computeDelegate.isRunning;
 
-  /// Before any computation you need to turn on the Computer
-
+  /// Turn on `Computer`, `workersCount` should not be more than 0, default is 2
+  /// `verbose` is false by default, enabling it leads to logging of every operation
   Future<void> turnOn({
     int workersCount = 2,
-    bool areLogsEnabled = false,
+    bool verbose = false,
   }) async {
-    return _computeDelegate.turnOn(workersCount: workersCount, areLogsEnabled: areLogsEnabled);
+    return _computeDelegate.turnOn(
+      workersCount: workersCount,
+      verbose: verbose,
+    );
   }
 
-  /// Executes function with passed param. Takes only global functions & static methods.
-
+  /// Executes function `fn` with passed `param`. Takes only top-level functions and static methods.
+  /// `P` is `param` type, `R` is function return type
   Future<R> compute<P, R>(
     Function fn, {
-    P param,
-    // Duration timeout,
+    P? param,
   }) async {
-    return _computeDelegate.compute(fn, param: param);
+    return _computeDelegate.compute<P, R>(fn, param: param);
   }
 
-  /// If you don't need workers anymore, you should turn off the computer
-
+  /// Turn off `Computer`
   Future<void> turnOff() async {
     return _computeDelegate.turnOff();
-  }
-
-  // Under development, private for now
-  /// You can run any long living heavy handlers in isolate and communicate with them like with usual objects
-  /// Exists separatly of compute and no need to turn on or turn off
-
-  Future<Process> _launch<T extends IsolateSideLaunchable>(CreateIsolateLaunchable createIsolateLaunchable) async {
-    return _launchDelegate.launch(createIsolateLaunchable);
   }
 }
