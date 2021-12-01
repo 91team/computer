@@ -1,3 +1,8 @@
+# 3.0.0
+
+- **Breaking change:** The old instance factory method (`Computer()`) has been replaced with `Computer.shared()`
+- You can now create new instances of the `Computer` by using `Computer.create()` this allows for specific instances for specific tasks groups
+
 # 2.0.0
 
 - Migrated to nullsafety
