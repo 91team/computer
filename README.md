@@ -10,7 +10,7 @@
 
 ## Note
 
-`Computer` is a singleton
+`Computer.shared()` is a singleton, use `Computer.create()` to create new instances
 
 ## How to use
 
@@ -21,7 +21,7 @@
 Before using the `Computer` you need to `turnOn` it. This will create workers and initialize them. Then you may use `compute()` method.
 
 ```dart
-final computer = Computer();
+final computer = Computer.create(); //Or Computer.shared()
 
 await computer.turnOn(
   workersCount: 4, // optional, default 2
