@@ -6,7 +6,9 @@ import 'compute_api/compute_api.dart';
 class Computer {
   final _computeDelegate = ComputeAPI();
 
-  factory Computer() => _singleton;
+  factory Computer.shared() => _singleton;
+
+  factory Computer.create() => Computer._internal();
 
   Computer._internal();
 

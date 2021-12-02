@@ -7,3 +7,5 @@ environment:
 dependencies:
   computer:
     path: ../
+dev_dependencies: 
+  lints: ^1.0.1

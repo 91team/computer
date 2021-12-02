@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:computer/computer.dart';
 
 Future<void> main() async {
-  final computer = Computer();
+  final computer = Computer.shared();
 
   await computer.turnOn(
     workersCount: 2,
