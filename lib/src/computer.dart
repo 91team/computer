@@ -5,6 +5,8 @@ import 'compute_api/compute_api.dart';
 /// Class, that provides `compute` like API for concurrent calculations
 class Computer {
   final _computeDelegate = ComputeAPI();
+
+  /// Completes when the computer is turned on, null when it is turned off
   Completer? _completer;
 
   factory Computer.shared() => _singleton;
@@ -24,6 +26,8 @@ class Computer {
     int workersCount = 2,
     bool verbose = false,
   }) async {
+    assert(workersCount > 0, 'workersCount should be more than 0');
+    if (isRunning) return;
     _completer = Completer<void>();
     await _computeDelegate.turnOn(
       workersCount: workersCount,
@@ -34,7 +38,7 @@ class Computer {
 
   /// Executes function `fn` with passed `param`. Takes only top-level functions and static methods.
   /// `P` is `param` type, `R` is function return type
-  /// Throws when turnOn has not been called, awaits when turnOn has been called, but not yet finished
+  /// Throws when turnOn has not been called or waits for turnOn completion
   Future<R> compute<P, R>(
     Function fn, {
     P? param,
@@ -48,7 +52,10 @@ class Computer {
 
   /// Turn off `Computer`
   Future<void> turnOff() async {
-    if (_completer?.isCompleted == false) _completer!.completeError('Computer turned off');
+    if (_completer?.isCompleted == false) {
+      _completer!.completeError('Computer turned off');
+    }
+    _completer = null;
     return _computeDelegate.turnOff();
   }
 }
