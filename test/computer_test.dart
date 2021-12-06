@@ -43,6 +43,21 @@ void main() {
     await computer.turnOff();
   });
 
+  test('Execute function with param without awaiting turnOn', () async {
+    final computer = Computer.create();
+    computer.turnOn();
+
+    expect(await computer.compute<int, int>(fib, param: 20), equals(fib(20)));
+
+    await computer.turnOff();
+  });
+
+  test('Execute before turn on throws Exception', () async {
+    final computer = Computer.create();
+
+    expect(() => computer.compute<int, int>(fib, param: 20), throwsA(isA<StateError>()));
+  });
+
   test('Stress test', () async {
     final computer = Computer.create();
     await computer.turnOn();
