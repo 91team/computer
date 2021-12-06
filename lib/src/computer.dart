@@ -52,10 +52,8 @@ class Computer {
 
   /// Turn off `Computer`
   Future<void> turnOff() async {
-    if (_completer?.isCompleted == false) {
-      _completer!.completeError('Computer turned off');
-    }
+    await _completer?.future;
+    await _computeDelegate.turnOff();
     _completer = null;
-    return _computeDelegate.turnOff();
   }
 }
