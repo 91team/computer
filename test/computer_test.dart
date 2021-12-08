@@ -72,7 +72,7 @@ void main() {
     final computer = Computer.create();
     await computer.turnOn();
 
-    expect(await computer.compute<int, int>(fib20), equals(fib20()));
+    expect(await computer.compute<void, int>(fib20), equals(fib20()));
 
     await computer.turnOff();
   });
