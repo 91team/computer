@@ -15,7 +15,7 @@ class ComputeAPI {
 
   final _activeTaskCompleters = <Capability, Completer>{};
 
-  late Logger? _logger;
+  Logger? _logger;
 
   bool isRunning = false;
   bool _allowCreating = false;
