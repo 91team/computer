@@ -96,7 +96,7 @@ class ComputeAPI {
     }
     _activeTaskCompleters.forEach((taskCapability, completer) {
       if (!completer.isCompleted) {
-        completer.completeError(RemoteExecutionError(
+        completer.completeError(CancelExecutionError(
           'Canceled because of computer turn off',
           taskCapability,
         ));

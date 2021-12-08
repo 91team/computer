@@ -9,3 +9,13 @@ class RemoteExecutionError implements Exception {
   @override
   String toString() => message;
 }
+
+class CancelExecutionError implements Exception {
+  final String message;
+  final Capability taskCapability;
+
+  CancelExecutionError(this.message, this.taskCapability);
+
+  @override
+  String toString() => message;
+}
