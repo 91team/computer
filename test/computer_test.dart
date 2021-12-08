@@ -113,10 +113,25 @@ void main() {
     final computer = Computer.create();
     await computer.turnOn();
 
-    expect(
-      () async => await computer.compute<int, int>(errorFib, param: 20),
-      throwsA(isA<RemoteExecutionError>()),
-    );
+    try {
+      await computer.compute<int, int>(errorFib, param: 20);
+    } catch (e) {
+      expect(e, isA<RemoteExecutionError>());
+    }
+
+    await computer.turnOff();
+  });
+
+  test('Cancel running worker', () async {
+    final computer = Computer.create();
+    await computer.turnOn();
+
+    Future<void>.delayed(Duration.zero, () {
+      expect(
+        () async => await computer.compute<int, int>(errorFib, param: 20),
+        throwsA(isA<CancelExecutionError>()),
+      );
+    });
 
     await computer.turnOff();
   });
