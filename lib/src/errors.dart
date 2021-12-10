@@ -1,21 +1,25 @@
 import 'dart:isolate';
 
-class RemoteExecutionError implements Exception {
+class ComputerError implements Exception {
   final String message;
-  final Capability taskCapability;
 
-  RemoteExecutionError(this.message, this.taskCapability);
+  ComputerError(this.message);
 
   @override
   String toString() => message;
 }
 
-class CancelExecutionError implements Exception {
-  final String message;
+class RemoteExecutionError extends ComputerError {
   final Capability taskCapability;
 
-  CancelExecutionError(this.message, this.taskCapability);
+  RemoteExecutionError(
+    String message,
+    this.taskCapability,
+  ) : super(message);
+}
 
-  @override
-  String toString() => message;
+class CancelExecutionError extends ComputerError {
+  final Capability taskCapability;
+
+  CancelExecutionError(String message, this.taskCapability) : super(message);
 }
