@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:computer/computer.dart';
 import 'package:computer/src/errors.dart';
 import 'package:test/test.dart';
@@ -85,7 +87,7 @@ void main() {
     final computer = Computer.create();
     await computer.turnOn();
 
-    expect(await computer.compute<int, int>(fib20), equals(fib20()));
+    expect(await computer.compute<void, int>(fib20), equals(fib20()));
 
     await computer.turnOff();
   });
@@ -112,6 +114,14 @@ void main() {
     );
 
     await computer.turnOff();
+  });
+
+  test('Add computes before workers have been created', () async {
+    final computer = Computer.create();
+    expect(Future.value(computer.compute<int, int>(fib, param: 20)), completion(equals(fib20())));
+    unawaited(computer.turnOn());
+
+    addTearDown(() async => await computer.turnOff());
   });
 
   test('Error method', () async {

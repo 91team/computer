@@ -1,3 +1,8 @@
+# 3.1.0
+
+- Allow workers to pull from queue on creation.
+
+[https://github.com/91team/computer/pull/12](https://github.com/91team/computer/pull/12)
 # 3.0.0
 
 - **Breaking change:** The old instance factory method (`Computer()`) has been replaced with `Computer.shared()`

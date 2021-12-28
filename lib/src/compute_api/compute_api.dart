@@ -15,24 +15,39 @@ class ComputeAPI {
 
   final _activeTaskCompleters = <Capability, Completer>{};
 
-  late Logger _logger;
+  Logger? _logger;
 
   bool isRunning = false;
+  bool _allowCreating = false;
 
   Future<void> turnOn({
     int workersCount = 2,
     bool verbose = false,
   }) async {
-    _logger = Logger(enabled: verbose);
+    _logger ??= Logger(enabled: verbose);
 
-    _logger.log('Turning on');
+    _logger?.log('Turning on');
+    _allowCreating = true;
 
     for (var i = 0; i < workersCount; i++) {
-      _logger.log('Starting worker $i...');
+      if (!_allowCreating) {
+        return;
+      }
+      _logger?.log('Starting worker $i...');
       final worker = Worker('worker$i');
       await worker.init(onResult: _onTaskFinished, onError: _onTaskFailed);
+      if (!_allowCreating) {
+        await worker.dispose();
+        return;
+      }
       _workers.add(worker);
-      _logger.log('Worker $i has started');
+      _logger?.log('Worker $i has started');
+      if (_taskQueue.isNotEmpty) {
+        _logger?.log("Queue isn't empty, new worker picking task");
+        final task = _taskQueue.removeFirst();
+        isRunning = true;
+        worker.execute(task);
+      }
     }
 
     isRunning = true;
@@ -42,7 +57,7 @@ class ComputeAPI {
     Function fn, {
     P? param,
   }) async {
-    _logger.log('Started computation');
+    _logger?.log('Started computation');
 
     final taskCapability = Capability();
     final taskCompleter = Completer<R>();
@@ -58,14 +73,14 @@ class ComputeAPI {
     final freeWorker = _findFreeWorker();
 
     if (freeWorker == null) {
-      _logger.log('No free workers, add task to the queue');
+      _logger?.log('No free workers, add task to the queue');
       if (_workers.length == 1) {
         _workers.single.execute(task);
       } else {
         _taskQueue.add(task);
       }
     } else {
-      _logger.log('Found free worker, executing on it');
+      _logger?.log('Found free worker, executing on it');
       freeWorker.execute(task);
     }
 
@@ -74,7 +89,8 @@ class ComputeAPI {
   }
 
   Future<void> turnOff() async {
-    _logger.log('Turning off computer...');
+    _logger?.log('Turning off computer...');
+    _allowCreating = false;
     for (final worker in _workers) {
       await worker.dispose();
     }
@@ -93,7 +109,7 @@ class ComputeAPI {
 
     isRunning = false;
 
-    _logger.log('Turned off computer');
+    _logger?.log('Turned off computer');
   }
 
   Worker? _findFreeWorker() {
@@ -108,7 +124,7 @@ class ComputeAPI {
     taskCompleter.complete(result.result);
 
     if (_taskQueue.isNotEmpty) {
-      _logger.log("Finished task on worker, queue isn't empty, pick task");
+      _logger?.log("Finished task on worker, queue isn't empty, pick task");
       final task = _taskQueue.removeFirst();
       worker.execute(task);
     }
@@ -119,7 +135,7 @@ class ComputeAPI {
     taskCompleter.completeError(error);
 
     if (_taskQueue.isNotEmpty) {
-      _logger.log("Finished task on worker, queue isn't empty, pick task");
+      _logger?.log("Finished task on worker, queue isn't empty, pick task");
       final task = _taskQueue.removeFirst();
       worker.execute(task);
     }
