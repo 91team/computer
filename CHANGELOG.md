@@ -1,3 +1,9 @@
+# 3.2.0
+
+- Added RemoteExecutionError, CancelExecutionError
+
+[https://github.com/91team/computer/pull/16](https://github.com/91team/computer/pull/16)
+
 # 3.1.0
 
 - Allow workers to pull from queue on creation.
