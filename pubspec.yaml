@@ -1,5 +1,5 @@
 name: computer
-version: 3.1.0
+version: 3.2.0
 description: Easy to use pool of concurrent workers with compute() like API.
 homepage: https://github.com/91team/computer
 
