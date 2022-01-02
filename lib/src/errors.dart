@@ -21,5 +21,8 @@ class RemoteExecutionError extends ComputerError {
 class CancelExecutionError extends ComputerError {
   final Capability taskCapability;
 
-  CancelExecutionError(String message, this.taskCapability) : super(message);
+  CancelExecutionError(
+    String message,
+    this.taskCapability,
+  ) : super(message);
 }
