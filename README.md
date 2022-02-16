@@ -1,6 +1,6 @@
 # Computer
 
-`Computer` is a lightweight library for concurrent computations, which provides Flutter's [compute](https://api.flutter.dev/flutter/foundation/compute.html) like API.
+`Computer` is a lightweight library for concurrent computations, which provides Flutter's [compute](https://api.flutter.dev/flutter/foundation/ComputeImpl.html) like API.
 
 ## Features
 
