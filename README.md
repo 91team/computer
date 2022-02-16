@@ -47,3 +47,29 @@ If you don't need workers anymore, you can `turnOff` the `Computer`. It will des
 ```dart
 await computer.turnOff();
 ```
+
+### Errors
+
+`ComputerError` the parent error for all errors/exceptions in this package
+
+```dart
+class ComputerError implements Exception {
+  final String message;
+}
+```
+
+`RemoteExecutionError` shows up when something goes wrong in task
+
+```dart
+class RemoteExecutionError extends ComputerError {
+  final Capability taskCapability;
+}
+```
+
+`CancelExecutionError` shows up when `turnOff` is called but task is processing
+
+```dart
+class CancelExecutionError extends ComputerError {
+  final Capability taskCapability;
+}
+```
