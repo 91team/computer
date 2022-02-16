@@ -1,3 +1,9 @@
+# 3.2.1
+
+- Fixed broken link to flutter docs
+
+[commit](https://github.com/91team/computer/commit/ca6dbf02080b2c825c6a8eebadb33bfded318a32)
+
 # 3.2.0
 
 - Added RemoteExecutionError, CancelExecutionError
