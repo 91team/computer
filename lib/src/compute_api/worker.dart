@@ -55,10 +55,15 @@ class Worker {
 
     _sendPort = await _broadcastReceivePort.first as SendPort;
 
-    _broadcastPortSubscription = _broadcastReceivePort.listen((dynamic res) {
+    _broadcastPortSubscription = _broadcastReceivePort.listen((dynamic res) async {
       status = WorkerStatus.idle;
       if (res is RemoteExecutionError) {
         onError(res, this);
+        return;
+      } else if(res is WorkerCleanUpTaskResult) {
+        await _broadcastPortSubscription.cancel();
+        _isolate.kill();
+        _receivePort.close();
         return;
       }
       onResult(res as TaskResult, this);
@@ -71,9 +76,7 @@ class Worker {
   }
 
   Future<void> dispose() async {
-    await _broadcastPortSubscription.cancel();
-    _isolate.kill();
-    _receivePort.close();
+    _sendPort.send(WorkerCleanUpTask());
   }
 }
 
@@ -85,16 +88,22 @@ Future<void> isolateEntryPoint(IsolateInitParams params) async {
 
   await for (final Task task in receivePort.cast<Task>()) {
     try {
-      final shouldPassParam = task.param != null;
+      if(task is WorkerCleanUpTask) {
+        receivePort.close();
+        final result = WorkerCleanUpTaskResult();
+        sendPort.send(result);
+      } else {
+        final shouldPassParam = task.param != null;
 
-      final dynamic computationResult =
-          shouldPassParam ? await task.task(task.param) : await task.task();
+        final dynamic computationResult =
+        shouldPassParam ? await task.task(task.param) : await task.task();
 
-      final result = TaskResult(
-        result: computationResult,
-        capability: task.capability,
-      );
-      sendPort.send(result);
+        final result = TaskResult(
+          result: computationResult,
+          capability: task.capability,
+        );
+        sendPort.send(result);
+      }
     } catch (error) {
       sendPort.send(RemoteExecutionError(error.toString(), task.capability));
     }
