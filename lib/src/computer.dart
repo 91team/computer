@@ -31,11 +31,13 @@ class Computer {
 
   /// Executes function `fn` with passed `param`. Takes only top-level functions and static methods.
   /// `P` is `param` type, `R` is function return type
+  /// `taskName` is a identifier for the task that's only used during logging
   Future<R> compute<P, R>(
     Function fn, {
     P? param,
+    String? taskName,
   }) async {
-    return _computeDelegate.compute<P, R>(fn, param: param);
+    return _computeDelegate.compute<P, R>(fn, param: param, taskName: taskName);
   }
 
   /// Turn off `Computer`
