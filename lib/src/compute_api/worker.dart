@@ -93,6 +93,7 @@ Future<void> isolateEntryPoint(IsolateInitParams params) async {
       final result = TaskResult(
         result: computationResult,
         capability: task.capability,
+        name: task.name,
       );
       sendPort.send(result);
     } catch (error) {
